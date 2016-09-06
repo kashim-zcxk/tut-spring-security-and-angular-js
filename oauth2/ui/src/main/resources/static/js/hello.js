@@ -32,10 +32,18 @@ function($rootScope, $http, $location, $route) {
 	self.credentials = {};
 
 	self.logout = function() {
-		$http.post('logout', {}).finally(function() {
-			$rootScope.authenticated = false;
-			$location.path("/");
-		});
+		console.log("post logout to uaa...");
+
+		$http.post('http:9999/uaa/logout', {}).finally(function() {
+		    console.log("post log out to ui...");
+		
+			$http.post('logout', {}).finally(function() {
+				console.log("redirect to root...");
+						
+				$rootScope.authenticated = false;
+				$location.path("/");
+			});
+		})
 	}
 
 }).controller('home', function($http) {
