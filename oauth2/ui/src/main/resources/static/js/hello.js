@@ -32,18 +32,25 @@ function($rootScope, $http, $location, $route) {
 	self.credentials = {};
 
 	self.logout = function() {
-		console.log("post logout to uaa...");
+		console.log("post logout to uaa using ajax...");
 
-		$http.post('http://localhost:9999/uaa/logout', {}).finally(function() {
-		    console.log("post log out to ui...");
-		
-			$http.post('logout', {}).finally(function() {
-				console.log("redirect to root...");
-						
-				$rootScope.authenticated = false;
-				$location.path("/");
-			});
-		})
+	   $.ajax({
+	        url: "http://localhost:9999/uaa/logout",
+	        method: "POST",
+	        xhrFields: {
+	            withCredentials: true
+        },
+	        success: function(data) {
+				console.log("post logout to ui-gateway...");
+
+				$http.post('logout', {}).finally(function() {
+					console.log("redirect to root...");
+							
+					$rootScope.authenticated = false;
+					$location.path("/");
+				});
+	        }
+    	})		
 	}
 
 }).controller('home', function($http) {
