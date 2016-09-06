@@ -34,7 +34,7 @@ function($rootScope, $http, $location, $route) {
 	self.logout = function() {
 		console.log("post logout to uaa...");
 
-		$http.post('http:9999/uaa/logout', {}).finally(function() {
+		$http.post('http://localhost:9999/uaa/logout', {}).finally(function() {
 		    console.log("post log out to ui...");
 		
 			$http.post('logout', {}).finally(function() {
